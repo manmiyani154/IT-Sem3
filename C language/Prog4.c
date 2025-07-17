@@ -2,8 +2,6 @@
 #include <stdlib.h>
 
 int main() {
-    printf("Name: Man Miyani\n");
-    printf("Enrollment No: ET24BTIT100\n\n");
     int *arr, *newArr, *callArr;
     int n, i;
 
