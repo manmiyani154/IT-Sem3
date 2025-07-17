@@ -15,6 +15,6 @@ int main()
     
     printf("\n----------");
     printf("\nThe Base address for arr[0]: %X",&arr[0]);
-    for (int i = 1; i < 10; i++) printf("\nThe address of arr[%d] using formula: %X",i,&arr[0 + i] + sizeof(int));
+    for (int i = 1; i < 10; i++) printf("\nThe address of arr[%d] using formula: %X",i,&arr[0] + (i * sizeof(int))/sizeof(arr[0]));
     return 0;
 }
