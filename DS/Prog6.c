@@ -5,9 +5,11 @@
 
 #define SIZE 100
 
+// Stack and its pointer
 char stack[SIZE];
 int top = -1;
 
+// Push character onto stack
 void push(char val) {
     if (top >= SIZE - 1) {
         printf("Stack Overflow! Cannot push '%c'\n", val);
@@ -16,6 +18,7 @@ void push(char val) {
     stack[++top] = val;
 }
 
+// Pop character from stack
 char pop() {
     if (top == -1) {
         printf("Stack Underflow! Cannot pop\n");
@@ -24,6 +27,7 @@ char pop() {
     return stack[top--];
 }
 
+// Peek top character from stack
 char peek() {
     if (top == -1) {
         printf("Stack is Empty! Cannot peek\n");
@@ -32,6 +36,7 @@ char peek() {
     return stack[top];
 }
 
+// Incoming precedence of operators
 int f(char symbol) {
     switch (symbol) {
         case '+':
@@ -45,6 +50,7 @@ int f(char symbol) {
     }
 }
 
+// In-stack precedence of operators
 int g(char symbol) {
     switch (symbol) {
         case '+':
@@ -57,23 +63,29 @@ int g(char symbol) {
     }
 }
 
+// Returns 1 if symbol is operand (letter or number), else -1
 int R(char symbol) {
     return isalnum(symbol) ? 1 : -1;
 }
 
+// Buffer to store postfix result
 char postfix[SIZE];
 
+// Convert infix expression to postfix
 void infixToPostfix(char *infix) {
     int i = 0, j = 0, rank = 0;
     char temp;
-    push('(');
-    strcat(infix, ")");
+    push('('); // Start with '(' on stack
+    strcat(infix, ")"); // Add ')' at the end of infix
+
     while (infix[i] != '\0') {
         char sym = infix[i];
         if (sym == ' ') {
             i++;
             continue;
         }
+
+        // Pop operators from stack if they have higher precedence
         while (g(peek()) > f(sym)) {
             temp = pop();
             postfix[j++] = temp;
@@ -83,11 +95,17 @@ void infixToPostfix(char *infix) {
                 exit(1);
             }
         }
+
+        // Push current symbol if precedence doesn't match
         if (g(peek()) != f(sym)) push(sym);
-        else pop();
+        else pop(); // Discard matching parenthesis
+
         i++;
     }
+
     postfix[j] = '\0';
+
+    // Check for correctness
     if (top != -1 || rank != 1) {
         printf("Invalid Expression\n");
         exit(1);
@@ -96,13 +114,17 @@ void infixToPostfix(char *infix) {
     }
 }
 
+// Evaluate postfix expression
 void evaluatePostfix(char *postfix) {
     float evalStack[SIZE];
     int evalTop = -1;
-    float variables[26] = {0};
-    int used[26] = {0};
+    float variables[26] = {0}; // Stores values of a-z
+    int used[26] = {0};        // Track which variables are set
+
     for (int i = 0; postfix[i] != '\0'; i++) {
         char sym = postfix[i];
+
+        // If operand, ask for its value
         if (isalpha(sym)) {
             int index = sym - 'a';
             if (!used[index]) {
@@ -112,13 +134,16 @@ void evaluatePostfix(char *postfix) {
             }
             evalStack[++evalTop] = variables[index];
         } else {
+            // Perform operation with top two values
             if (evalTop < 1) {
                 printf("Invalid Expression for Evaluation\n");
                 return;
             }
+
             float b = evalStack[evalTop--];
             float a = evalStack[evalTop--];
             float res;
+
             switch (sym) {
                 case '+': res = a + b; break;
                 case '-': res = a - b; break;
@@ -134,9 +159,12 @@ void evaluatePostfix(char *postfix) {
                     printf("Unknown operator '%c'\n", sym);
                     return;
             }
+
             evalStack[++evalTop] = res;
         }
     }
+
+    // Final result should be at top of stack
     if (evalTop == 0) {
         printf("Result = %.2f\n", evalStack[evalTop]);
     } else {
@@ -147,8 +175,9 @@ void evaluatePostfix(char *postfix) {
 int main() {
     char infix[SIZE];
     printf("Enter infix expression (with spaces if needed): ");
-    scanf(" %[^\n]", infix);
-    infixToPostfix(infix);
-    evaluatePostfix(postfix);
+    scanf(" %[^\n]", infix); // Read full line with spaces
+
+    infixToPostfix(infix);  // Convert to postfix
+    evaluatePostfix(postfix); // Evaluate result
     return 0;
 }
