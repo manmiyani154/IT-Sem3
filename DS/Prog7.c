@@ -9,7 +9,6 @@ char stack[SIZE];
 int top = -1;
 char postfix[SIZE];
 
-// Stack operations
 void push(char val) {
     if (top >= SIZE - 1) {
         printf("Stack Overflow! Cannot push '%c'\n", val);
@@ -66,7 +65,6 @@ int R(char sym) {
     return isalnum(sym) ? 1 : -1;
 }
 
-// Convert infix to postfix
 void infixToPostfix(char *infix) {
     int i = 0, j = 0, rank = 0;
     char temp;
@@ -103,7 +101,6 @@ void infixToPostfix(char *infix) {
     }
 }
 
-// Evaluate postfix expression
 void evaluatePostfix(char *postfix) {
     float evalStack[SIZE];
     int evalTop = -1;
