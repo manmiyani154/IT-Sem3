@@ -9,7 +9,6 @@ char stack[SIZE];
 int top = -1;
 char postfix[SIZE];
 
-// Push a character onto the stack
 void push(char val) {
     if (top >= SIZE - 1) {
         printf("Stack Overflow! Cannot push '%c'\n", val);
@@ -18,7 +17,6 @@ void push(char val) {
     stack[++top] = val;
 }
 
-// Pop a character from the stack
 char pop() {
     if (top == -1) {
         printf("Stack Underflow! Cannot pop\n");
@@ -27,7 +25,6 @@ char pop() {
     return stack[top--];
 }
 
-// Peek the top character of the stack
 char peek() {
     if (top == -1) {
         printf("Stack is Empty! Cannot peek\n");
@@ -45,7 +42,7 @@ int f(char sym) {
         case '^': return 6;
         case '(': return 9;
         case ')': return 0;
-        default : return 7; // Operand
+        default : return 7; 
     }
 }
 // In-stack precedence function
@@ -57,14 +54,14 @@ int g(char sym) {
         case '/': return 4;
         case '^': return 5;
         case '(': return 0;
-        default : return 8; // Operand
+        default : return 8;
     }
 }
 // Check if character is operand (letter or digit)
 int R(char sym) {
     return isalnum(sym) ? 1 : -1;
 }
-// Convert infix expression to postfix expression
+
 void infixToPostfix(char *infix) {
     int i = 0, j = 0, rank = 0;
     char temp;
@@ -107,7 +104,7 @@ void infixToPostfix(char *infix) {
 int main() {
     char infix[SIZE];
     printf("Enter infix expression: ");
-    scanf(" %[^\n]", infix); // Read full line
+    scanf(" %[^\n]", infix);
     infixToPostfix(infix);
     return 0;
 }
