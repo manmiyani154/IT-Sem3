@@ -1,32 +1,68 @@
 #include <stdio.h>
-#define SIZE 5
+#include <stdlib.h>
 
-int queue[SIZE], front = -1, rear = -1;
+#define N 20
 
-void insert(int val) {
-    if (rear == SIZE - 1) return;
-    if (front == -1) front = 0;
-    queue[++rear] = val;
+int Q[N];
+int F = 0;
+int R = 0;
+
+void Enqueue() {
+    int Y;
+    printf("Enter value to insert: ");
+    scanf("%d", &Y);
+
+    if (R >= N) {
+        printf("Queue Overflow\n");
+        return;
+    }
+    Q[R] = Y;
+    ++R;
+    if (F == 0) F = 1;
+    printf("Inserted: %d\n", Y);
 }
 
-void delete() {
-    if (front == -1 || front > rear) return;
-    front++;
+int Dequeue() {
+    int Y;
+    if (F == 0) {
+        printf("Queue Underflow\n");
+        return -1;
+    }
+    Y = Q[F - 1];
+    if (F == R) {
+        F = 0;
+        R = 0;
+    } else {
+        F = F + 1;
+    }
+    printf("Deleted: %d\n", Y);
+    return Y;
 }
 
-void display() {
-    for (int i = front; i <= rear; i++)
-        printf("%d ", queue[i]);
+void Display() {
+    if (F == 0) {
+        printf("Queue is empty\n");
+        return;
+    }
+    printf("Queue elements: ");
+    for (int i = F - 1; i < R; i++) {
+        printf("%d ", Q[i]);
+    }
     printf("\n");
 }
 
 int main() {
-
-    insert(10);
-    insert(20);
-    insert(30);
-    display();       
-    delete();
-    display();       
+    int choice;
+    while (1) {
+        printf("\n1.Enqueue  2.Dequeue  3.Display  4.Exit\nEnter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: Enqueue(); break;
+            case 2: Dequeue(); break;
+            case 3: Display(); break;
+            case 4: printf("Exiting program.\n"); exit(0);
+            default: printf("Invalid choice. Try again.\n");
+        }
+    }
     return 0;
 }
