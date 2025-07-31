@@ -1,44 +1,66 @@
 #include <stdio.h>
-#define SIZE 5
+#include <stdlib.h>
 
-int cq[SIZE], front = -1, rear = -1;
+#define N 20  
 
-void insert(int val) {
-    if ((rear + 1) % SIZE == front) return;
-    if (front == -1) front = 0;
-    rear = (rear + 1) % SIZE;
-    cq[rear] = val;
-}
+int Q[N + 1];  
+int F = 0, R = 0;  
 
-void delete() {
-    if (front == -1) return;
-    if (front == rear) {
-        front = rear = -1;
-    } else {
-        front = (front + 1) % SIZE;
+void Enqueue(int Y) {
+    if (R == N) R = 1;  // Wrap around
+    else R = R + 1;
+    if (F == R) {  /
+        printf("Queue Overflow\n");
+        if (R == 1) R = N;
+        else R = R - 1;
+        return;
     }
+    Q[R] = Y;
+    if (F == 0) F = 1;  // Set front
+    printf("Inserted: %d\n", Y);
 }
 
-void display() {
-    if (front == -1) return;
-    int i = front;
+int Dequeue() {
+    int Y;
+    if (F == 0) {  
+        printf("Queue Underflow\n");
+        return -1;
+    }
+    Y = Q[F];
+    if (F == R) F = R = 0;  // Reset if last element deleted
+    else if (F == N) F = 1;
+    else F = F + 1;
+    printf("Deleted: %d\n", Y);
+    return Y;
+}
+
+void Display() {
+    if (F == 0) {
+        printf("Queue is empty\n");
+        return;
+    }
+    printf("Queue elements: ");
+    int i = F;
     while (1) {
-        printf("%d ", cq[i]);
-        if (i == rear) break;
-        i = (i + 1) % SIZE;
+        printf("%d ", Q[i]);
+        if (i == R) break;
+        i = (i == N) ? 1 : i + 1;
     }
     printf("\n");
 }
 
 int main() {
-
-    insert(1);
-    insert(2);
-    insert(3);
-    insert(4);
-    display();       
-    delete();
-    insert(5);
-    display();       
+    int choice, value;
+    while (1) {
+        printf("\n1.Enqueue  2.Dequeue  3.Display  4.Exit\nEnter choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: printf("Enter value: "); scanf("%d", &value); Enqueue(value); break;
+            case 2: Dequeue(); break;
+            case 3: Display(); break;
+            case 4: printf("Exiting program.\n"); exit(0);
+            default: printf("Invalid choice\n");
+        }
+    }
     return 0;
 }
