@@ -22,7 +22,7 @@ void Enqueue() {
 
 int Dequeue() {
     int Y;
-    if (F == 0) {  // Check underflow
+    if (F == 0) {  
         printf("Queue Underflow\n");
         return -1;
     }
