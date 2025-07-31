@@ -57,7 +57,8 @@ int g(char sym) {
         default : return 8;
     }
 }
-// Check if character is operand (letter or digit)
+
+// Rank: 1 for operands, -1 for operators
 int R(char sym) {
     return isalnum(sym) ? 1 : -1;
 }
