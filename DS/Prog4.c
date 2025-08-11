@@ -2,66 +2,43 @@
 #include <stdlib.h>
 
 int main() {
-    int *arr, *newArr, *callArr;
-    int n, i;
+    int *arr;  
 
-    printf("Enter number of elements (malloc): ");
-    scanf("%d", &n);
-
-    arr = (int *)malloc(n * sizeof(int));
+    // ---------- malloc ----------
+    // malloc() allocates memory but does NOT initialize it
+    arr = (int *)malloc(3 * sizeof(int));  // Allocate space for 3 integers
     if (arr == NULL) {
-        printf("Memory not allocated\n");
+        printf("Memory allocation failed (malloc)\n");
         return 1;
     }
+    arr[0] = 10; arr[1] = 20; arr[2] = 30;  // Assign values
+    printf("malloc(): %d %d %d\n", arr[0], arr[1], arr[2]);
 
-    for (i = 0; i < n; i++) {
-        printf("Enter element %d: ", i+1);
-        scanf("%d", &arr[i]);
-    }
-
-    printf("Elements from malloc():\n");
-    for (i = 0; i < n; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
-
-    // Demonstrating calloc
-    printf("\nEnter number of elements (calloc): ");
-    scanf("%d", &n);
-    callArr = (int *)calloc(n, sizeof(int));
-    if (callArr == NULL) {
-        printf("Memory not allocated\n");
+    // ---------- calloc ----------
+    // calloc() allocates memory AND initializes all bytes to 0
+    int *cArr = (int *)calloc(3, sizeof(int));  // Allocate space for 3 integers
+    if (cArr == NULL) {
+        printf("Memory allocation failed (calloc)\n");
         return 1;
     }
+    printf("calloc(): %d %d %d\n", cArr[0], cArr[1], cArr[2]);  // All should be 0
 
-    printf("Elements from calloc() (initialized to 0):\n");
-    for (i = 0; i < n; i++)
-        printf("%d ", callArr[i]);
-    printf("\n");
-
-    // Demonstrating realloc
-    int newSize;
-    printf("\nEnter new size for realloc (increase): ");
-    scanf("%d", &newSize);
-    newArr = (int *)realloc(arr, newSize * sizeof(int));
-    if (newArr == NULL) {
-        printf("Reallocation failed\n");
+    // ---------- realloc ----------
+    // realloc() changes the size of already allocated memory
+    arr = (int *)realloc(arr, 5 * sizeof(int));  // Increase size to 5 integers
+    if (arr == NULL) {
+        printf("Memory reallocation failed\n");
         return 1;
     }
-
-    printf("Enter %d new elements:\n", newSize - n);
-    for (i = n; i < newSize; i++) {
-        printf("Enter element %d: ", i+1);
-        scanf("%d", &newArr[i]);
-    }
-
-    printf("Elements after realloc():\n");
-    for (i = 0; i < newSize; i++)
-        printf("%d ", newArr[i]);
+    arr[3] = 40; arr[4] = 50;  // Assign new values
+    printf("realloc(): ");
+    for (int i = 0; i < 5; i++) printf("%d ", arr[i]);
     printf("\n");
 
-    // Freeing all allocated memory
-    free(newArr);
-    free(callArr);
+    // ---------- free ----------
+    // free() releases allocated memory to avoid memory leaks
+    free(arr);
+    free(cArr);
 
     return 0;
 }
