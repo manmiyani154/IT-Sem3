@@ -251,10 +251,10 @@ int main() {
                 break;
 
             case 9:
-                exit(0);   // terminate program
-
+                exit(0);  
             default:
                 printf("Invalid choice!\n");
         }
     }
 }
+
