@@ -1,18 +1,21 @@
-public class Prog10 {
+class Counter {
     static int count = 0;
 
-    Prog10() {
+    Counter() {
         count++;
     }
 
-    static void displayCount() {
-        System.out.println("Objects created: " + count);
+    static void showCount() {
+        System.out.println("Number of objects created: " + count);
     }
+}
 
+class Prog10 {
     public static void main(String[] args) {
-        Prog10 a = new Prog10();
-        Prog10 b = new Prog10();
-        Prog10 c = new Prog10();
-        displayCount();
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        Counter c3 = new Counter();
+
+        Counter.showCount();
     }
 }
