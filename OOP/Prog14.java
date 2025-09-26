@@ -1,37 +1,53 @@
-interface Shape {
-    double PI = 3.1415;
+import java.util.Scanner;
+
+interface Shape3 {
+    double PI = 3.14159;
+
     void read();
+
     void show();
 }
 
-class Rectangle implements Shape {
-    double l, b;
+class Rectangle3 implements Shape3 {
+    double length, breadth;
+
     public void read() {
-        l = 4;
-        b = 5;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter length: ");
+        length = sc.nextDouble();
+        System.out.print("Enter breadth: ");
+        breadth = sc.nextDouble();
     }
+
     public void show() {
-        System.out.println("Rectangle Area: " + (l * b));
+        System.out.println("Area of Rectangle: " + (length * breadth));
     }
 }
 
-class Circle implements Shape {
-    double r;
+class Circle3 implements Shape3 {
+    double radius;
+
     public void read() {
-        r = 3;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter radius: ");
+        radius = sc.nextDouble();
     }
+
     public void show() {
-        System.out.println("Circle Area: " + (PI * r * r));
+        System.out.println("Area of Circle: " + (PI * radius * radius));
     }
 }
 
-public class Prog14 {
+class Prog14 {
     public static void main(String[] args) {
-        Shape s1 = new Rectangle();
-        Shape s2 = new Circle();
-        s1.read();
-        s1.show();
-        s2.read();
-        s2.show();
+        Shape3 s;
+
+        s = new Rectangle3();
+        s.read();
+        s.show();
+
+        s = new Circle3();
+        s.read();
+        s.show();
     }
 }
