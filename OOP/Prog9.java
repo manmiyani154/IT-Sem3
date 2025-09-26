@@ -2,37 +2,55 @@ import java.util.Scanner;
 
 class Student {
     int roll_no;
-    String name, address, branch;
+    String name;
+    String address;
+    String branch;
 
-    void getData(Scanner sc) {
+    void getData() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nEnter Roll No: ");
         roll_no = sc.nextInt();
-        name = sc.next();
-        address = sc.next();
-        branch = sc.next();
+        sc.nextLine();
+        System.out.print("Enter Name: ");
+        name = sc.nextLine();
+        System.out.print("Enter Address: ");
+        address = sc.nextLine();
+        System.out.print("Enter Branch: ");
+        branch = sc.nextLine();
     }
 
     void showData() {
-        System.out.println(roll_no + " " + name + " " + address + " " + branch);
+        System.out
+                .println("\nRoll No: " + roll_no + "\nName: " + name + "\nAddress: " + address + "\nBranch: " + branch);
+    }
+
+    static void branchDisplay(Student[] s) {
+        System.out.println("\n--- Students of Computer Branch ---");
+        for (Student st : s) {
+            if (st.branch.equalsIgnoreCase("Computer")) {
+                st.showData();
+            }
+        }
     }
 }
 
-public class Prog9 {
-    public static void branchDisplay(Student[] s) {
-        for (Student stu : s) {
-            if (stu.branch.equalsIgnoreCase("computer"))
-                stu.showData();
-        }
-    }
-
+class Prog9 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Student[] s = new Student[3];
+        System.out.print("Enter number of students: ");
+        int n = sc.nextInt();
+        Student[] arr = new Student[n];
 
-        for (int i = 0; i < s.length; i++) {
-            s[i] = new Student();
-            s[i].getData(sc);
+        for (int i = 0; i < n; i++) {
+            arr[i] = new Student();
+            arr[i].getData();
         }
 
-        branchDisplay(s);
+        System.out.println("\n--- All Students ---");
+        for (Student st : arr) {
+            st.showData();
+        }
+
+        Student.branchDisplay(arr);
     }
 }
